@@ -17,7 +17,7 @@ public class LancementSimulation : MonoBehaviour {
     Color couleurBase;
 	// Use this for initialization
 	void Start () {
-
+        
         allInputFields = new List<InputField>();
         foreach(GameObject p in panelsInputField)
         {

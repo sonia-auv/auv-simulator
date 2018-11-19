@@ -44,7 +44,7 @@ public class BoundingBox : MonoBehaviour {
 
         bounds = model3D.GetComponentInChildren<Renderer>().bounds;
 
-        AssignerCoinBox();
+        AssignerCoinBox2();
 
         //assigne les position pour creer le bounding box grace a un line renderer
         Vector3[] tableauLigne = new Vector3[5];
@@ -56,19 +56,6 @@ public class BoundingBox : MonoBehaviour {
         line.SetPositions(tableauLigne);
 
     }
-
-    //void AssignerCoinBox()
-    //{
-        
-    //    //coin superieur gauche
-    //    CoinHautGauche = new Vector3(bounds.min.x - espacement, bounds.max.y + espacement, bounds.min.z);
-    //    //coin superieur droit
-    //    CoinHautDroit = new Vector3(bounds.max.x + espacement, bounds.max.y + espacement, bounds.min.z);
-    //    //coin inferieur droit
-    //    CoinBasDroit = new Vector3(bounds.max.x + espacement, bounds.min.y - espacement, bounds.min.z);
-    //    //coin inferieur gauche
-    //    CoinBasGauche = new Vector3(bounds.min.x - espacement, bounds.min.y - espacement, bounds.min.z);
-    //}
 
     void AssignerCoinBox()
     {
@@ -85,57 +72,107 @@ public class BoundingBox : MonoBehaviour {
         CoinBasGauche = new Vector3(centreBound.x - bounds.extents.x-amplification - espacement, centreBound.y - bounds.extents.y - espacement, bounds.min.z);
     }
 
+    /// <summary>
+    /// Ajuster la box selon la perspective
+    /// Quand l'objet est a droite, on veut prendre en consideration sa profondeur de gauche pour que la bounding box soit plus precise
+    /// </summary>
     void AssignerCoinBox2()
     {
-        if (model3D.transform.position.x >= 0)
+
+        float xGauche = (bounds.center.x - bounds.extents.x) - cam.transform.position.x; 
+        float xDroit = (bounds.center.x +bounds.extents.x) -cam.transform.position.x; 
+        float yBas = (bounds.center.y - bounds.extents.y) - cam.transform.position.y; 
+        float yHaut = (bounds.center.y + bounds.extents.y) - cam.transform.position.y; 
+        
+        if (model3D.transform.position.x >= 1)
         {
-            //ajuster la valeur en x minimale selon la position de l'objet
-            float opposeG = cam.transform.position.x - bounds.min.x;
-            float adjG = cam.transform.position.z - bounds.center.z;
-            float angleXG = Mathf.Atan(opposeG / adjG);
+            //Xgauche
 
-            float xAjustementG = Mathf.Sin(angleXG * bounds.extents.z * 2);
-            float xAjusterG = bounds.min.x - xAjustementG;
+            //Prendre le point en x le plus pres de la camera et le plus loin en z
+            float xG = (bounds.center.x - bounds.extents.x) - cam.transform.position.x;
+            float zG = (bounds.center.z + bounds.extents.z) - cam.transform.position.z;
 
+            //Trouver le point selon ce vecteur quand le x est au bounds avant de lobjet
+            float angleMin = Mathf.Atan(zG / xG);
+            //xMin : tan() = opp/adj --> tan() = opp/xmin
+            float oppMin = (bounds.center.z - bounds.extents.z) - cam.transform.position.z;
+            xGauche = oppMin / Mathf.Tan(angleMin);
 
-            CoinHautGauche = new Vector3(xAjusterG, bounds.max.y, bounds.min.z);
-            CoinHautDroit = new Vector3(bounds.max.x, bounds.max.y, bounds.min.z);
-            CoinBasDroit = new Vector3(bounds.max.x, bounds.min.y, bounds.min.z);
-            CoinBasGauche = new Vector3(xAjusterG, bounds.min.y, bounds.min.z);
-
-
-        }
-        else if (model3D.transform.position.x < 0)
-        {
+            //----------------
+            //Xdroit
+            //prendre le point en x le plus eloigner de la cam et le plus pres en z
+            xDroit = (bounds.center.x + bounds.extents.x) - cam.transform.position.x;
             
-            //ajuster la valeur en x maximale selon la position de l'objet
-            float opposeD = cam.transform.position.x - bounds.max.x;
-            float adjD = cam.transform.position.z - bounds.center.z;
-            float angleXD = Mathf.Atan(opposeD / adjD);
 
-            float xAjustementD = Mathf.Sin(angleXD * bounds.extents.z * 2);
-            float xAjusterD = bounds.max.x - xAjustementD;
 
-            CoinHautGauche = new Vector3(bounds.min.x, bounds.max.y, bounds.min.z);
-            CoinHautDroit = new Vector3(xAjusterD, bounds.max.y, bounds.min.z);
-            CoinBasDroit = new Vector3(xAjusterD, bounds.min.y, bounds.min.z);
-            CoinBasGauche = new Vector3(bounds.min.x, bounds.min.y, bounds.min.z);
+
+
         }
-        else if(model3D.transform.position.y >= 0)
+        else if (model3D.transform.position.x < 1)
         {
-            float opposeH = cam.transform.position.y - bounds.max.y;
-            float adjH = cam.transform.position.z - bounds.center.z;
-            float angleYH = Mathf.Atan(opposeH / adjH);
+            //Xdroit
 
-            float yAjustementH = Mathf.Sin(angleYH)* bounds.extents.z;
-            float yAjuster = bounds.max.y + yAjustementH;
+            //Prendre le point en x le plus pres de la camera et le plus loin en z
+            float xD = (bounds.center.x + bounds.extents.x) - cam.transform.position.x;
+            float zD = (bounds.center.z + bounds.extents.z) - cam.transform.position.z;
 
-            CoinHautGauche = new Vector3(bounds.min.x, yAjuster, bounds.min.z);
-            CoinHautDroit = new Vector3(bounds.max.x,yAjuster, bounds.min.z);
-            CoinBasDroit = new Vector3(bounds.max.x, bounds.min.y, bounds.min.z);
-            CoinBasGauche = new Vector3(bounds.min.x, bounds.min.y, bounds.min.z);
+            //Trouver le point selon ce vecteur quand le x est au bounds avant de lobjet
+            float angleMin = Mathf.Atan(zD / xD);
+            //xMin : tan() = opp/adj --> tan() = opp/xmin
+            float oppMin = (bounds.center.z - bounds.extents.z) - cam.transform.position.z;
+            xDroit = oppMin / Mathf.Tan(angleMin);
 
+            //----------------
+            //Xmax
+            //prendre le point en x le plus eloigner de la cam et le plus pres en z
+            xGauche = (bounds.center.x - bounds.extents.x) - cam.transform.position.x;
         }
+        if(model3D.transform.position.y >= 1)
+        {
+            //YBas
+
+           //Quand lobjet est plus haut que la cam prendre le point en bas arriere
+           float yB = (bounds.center.y - bounds.extents.y) - cam.transform.position.y;
+           float zB = (bounds.center.z + bounds.extents.z) - cam.transform.position.z;
+
+            //Trouver le point selon ce vecteur quand le y est au bounds avant de lobjet
+            float angleMin = Mathf.Atan(zB / yB);
+            //xMin : tan() = opp/adj --> tan() = opp/xmin
+            float oppMin = (bounds.center.z - bounds.extents.z) - cam.transform.position.z;
+            yBas = oppMin / Mathf.Tan(angleMin);
+
+            //--------------
+            //YHaut
+            yHaut = (bounds.center.y + bounds.extents.y) - cam.transform.position.y;
+        }
+        else if(model3D.transform.position.y < -1)
+        {
+            //YHaut
+            //Quand lobjet est plus bas que la cam prendre le point en Haut arriere
+            float yH = (bounds.center.y + bounds.extents.y) - cam.transform.position.y;
+            float zH = (bounds.center.z + bounds.extents.z) - cam.transform.position.z;
+
+            //Trouver le point selon ce vecteur quand le y est au bounds avant de lobjet
+            float angleMin = Mathf.Atan(zH / yH);
+            //xMin : tan() = opp/adj --> tan() = opp/xmin
+            float oppMin = (bounds.center.z - bounds.extents.z) - cam.transform.position.z;
+            yHaut = oppMin / Mathf.Tan(angleMin);
+
+            //--------------
+            //YBas
+            yBas = (bounds.center.y - bounds.extents.y) - cam.transform.position.y;
+        }
+
+
+        //Assigner les coins
+        //coin superieur gauche
+        CoinHautGauche = new Vector3(xGauche - espacement, yHaut /*+ espacement*/, bounds.min.z);
+        //coin superieur droit
+        CoinHautDroit = new Vector3(xDroit + espacement, yHaut /*+ espacement*/, bounds.min.z);
+        //coin inferieur droit
+        CoinBasDroit = new Vector3(xDroit + espacement, yBas /*- espacement*/, bounds.min.z);
+        //coin inferieur gauche
+        CoinBasGauche = new Vector3(xGauche - espacement, yBas /*- espacement*/, bounds.min.z);
     }
 
     
