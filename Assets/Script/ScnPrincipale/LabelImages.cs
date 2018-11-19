@@ -41,7 +41,6 @@ public class LabelImages : MonoBehaviour {
         GetBoxPoints();
 
         scriptJson = new JSONData(googleDrivePath + fileName, title, boxPoints);
-        //Debug.Log();
         scriptJsonFile.WriteInJSONFile(scriptJson);
 	}
 

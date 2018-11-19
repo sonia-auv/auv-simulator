@@ -14,12 +14,16 @@ public class BoundingBox : MonoBehaviour {
 
     Camera cam;
 
+    bool voirLigne = true;
+
 	// Use this for initialization
 	void Start () {
         model3D = gameObject;
-
+        
         //Line renderer pour creer le bounding box
         line = GetComponentInChildren<LineRenderer>();
+        if (line == null)
+            voirLigne = false;
 
         cam = Camera.main;
         camTransform = cam.transform;
@@ -46,14 +50,19 @@ public class BoundingBox : MonoBehaviour {
 
         AssignerCoinBox2();
 
-        //assigne les position pour creer le bounding box grace a un line renderer
-        Vector3[] tableauLigne = new Vector3[5];
-        tableauLigne[0] = CoinHautGauche;
-        tableauLigne[1] = CoinHautDroit;
-        tableauLigne[2] = CoinBasDroit;
-        tableauLigne[3] = CoinBasGauche;
-        tableauLigne[4] = CoinHautGauche;
-        line.SetPositions(tableauLigne);
+        //Si le line renderer est assignee on affiche le bouding box
+        if(voirLigne)
+        {
+            //assigne les position pour creer le bounding box grace a un line renderer
+            Vector3[] tableauLigne = new Vector3[5];
+            tableauLigne[0] = CoinHautGauche;
+            tableauLigne[1] = CoinHautDroit;
+            tableauLigne[2] = CoinBasDroit;
+            tableauLigne[3] = CoinBasGauche;
+            tableauLigne[4] = CoinHautGauche;
+            line.SetPositions(tableauLigne);
+        }
+        
 
     }
 
