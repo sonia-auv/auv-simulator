@@ -26,10 +26,13 @@ public class BeginingScene : MonoBehaviour {
         AssignerPosition();
         
 	}
+
     int nombreInstancier = 0;
+    List<GameObject> modelesBoundingBox;
 
     void AssignerPosition()
     {
+        modelesBoundingBox = new List<GameObject>();
         
         for (int i = 0; i < modeles.Length; ++i)
         {
@@ -52,6 +55,9 @@ public class BeginingScene : MonoBehaviour {
                 modeles[i].transform.position = new Vector3(x, y, distance);
 
                 nombreInstancier += 1;
+
+                modelesBoundingBox.Add(modeles[i]);
+
             }
             //enleve le tag bouding Object pour ne pas lui faire de bounding box ainsi que son script
             if (choix == 0 && !dernierObjetNonInstancier)
@@ -66,6 +72,26 @@ public class BeginingScene : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        UpdatePosition();
 		
 	}
+
+    void UpdatePosition()
+    {
+        foreach(GameObject g in modelesBoundingBox)
+        {
+            float distance = Random.Range(PROFONDEUR_FACE - Z_CAM, DISTANCE_MAX);
+            float frustrumHeight = distance * Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
+            float frustrumWidth = frustrumHeight * Camera.main.aspect;
+
+            float hautMax = frustrumHeight - CONTRAINTE_CADRE;
+            float coteMax = frustrumWidth - CONTRAINTE_CADRE * Camera.main.aspect;
+
+            float x = Random.Range(-coteMax, coteMax);
+            float y = Random.Range(-hautMax, hautMax);
+
+            g.transform.position = new Vector3(x, y, distance);
+        }
+    }
 }
