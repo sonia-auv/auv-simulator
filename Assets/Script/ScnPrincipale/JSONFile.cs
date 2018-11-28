@@ -34,7 +34,7 @@ public class JSONFile : MonoBehaviour {
         //permet davoir le string de lancien JSON file
         if (File.Exists(fullPath))
         {
-            using (StreamReader sr = new StreamReader(fileName))
+            using (StreamReader sr = new StreamReader(fullPath))
             {
                 infoJSON = sr.ReadToEnd();
             }

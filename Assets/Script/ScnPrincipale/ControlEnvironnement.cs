@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class ControlEnvironnement : MonoBehaviour {
 
-    const int ANGLE_UN_TOUR = 360;
+    //const int ANGLE_UN_TOUR = 360;
 
-    int angleModeleInitial = 50;
+    //int angleModeleInitial = 50;
     List<Transform> modeles;
     GameObject[] obj;
+    float[] coefficientRotation;
 
     public int vitesseRotation = 1;
 
@@ -20,11 +21,13 @@ public class ControlEnvironnement : MonoBehaviour {
 	void Start () {
         modeles = new List<Transform>();
         obj = GameObject.FindGameObjectsWithTag("BoundingObject");
+        coefficientRotation = new float[obj.Length];
 
         for(int i =0; i < obj.Length; ++i)
         {
             modeles.Add(obj[i].GetComponentInChildren<Transform>());
-            modeles[i].GetComponentInParent<Transform>().Rotate(50, 0, 0);
+            coefficientRotation[i] = Random.Range(1, 10);
+            //modeles[i].GetComponentInParent<Transform>().Rotate(50, 0, 0);
 
         }
     }
@@ -37,15 +40,22 @@ public class ControlEnvironnement : MonoBehaviour {
 
     void TournerModele()
     {
-        foreach(Transform t in modeles)
+        //foreach(Transform t in modeles)
+        //{
+        //    t.transform.Rotate(0, vitesseRotation, 0);
+            //additionAngleLacet += vitesseRotation;
+            //if (additionAngleLacet > ANGLE_UN_TOUR)
+            //{
+            //    t.transform.Rotate(-vitesseRotation, 0, 0);
+            //    additionAngleLacet -= ANGLE_UN_TOUR;
+            //}
+        //}
+
+        for(int i = 0; i< modeles.Count; ++i)
         {
-            t.transform.Rotate(0, vitesseRotation, 0);
-            additionAngleLacet += vitesseRotation;
-            if (additionAngleLacet > ANGLE_UN_TOUR)
-            {
-                t.transform.Rotate(-vitesseRotation, 0, 0);
-                additionAngleLacet -= ANGLE_UN_TOUR;
-            }
+            float rotation = vitesseRotation * coefficientRotation[i];
+            modeles[i].Rotate(0, rotation, 0);
+
         }
         
     }
