@@ -6,10 +6,10 @@ public class BeginingScene : MonoBehaviour {
 
     //const float HAUTEUR = 6;
     //const float LARGEUR = 10;
-    const float PROFONDEUR_FACE = 3;
-    const float DISTANCE_MAX = 100;
+    const float PROFONDEUR_FACE = 0;
+    const float DISTANCE_MAX = 5;
     const float Z_CAM = -10;
-    const int CONTRAINTE_CADRE = 3;
+    const int CONTRAINTE_CADRE = 5;
 
     GameObject[] modeles;
 
@@ -81,7 +81,7 @@ public class BeginingScene : MonoBehaviour {
     {
         foreach(GameObject g in modelesBoundingBox)
         {
-            float distance = Random.Range(PROFONDEUR_FACE - Z_CAM, DISTANCE_MAX);
+            float distance = Random.Range(PROFONDEUR_FACE, DISTANCE_MAX);
             float frustrumHeight = distance * Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
             float frustrumWidth = frustrumHeight * Camera.main.aspect;
 

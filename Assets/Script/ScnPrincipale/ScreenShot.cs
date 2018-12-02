@@ -16,15 +16,16 @@ public class ScreenShot : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        if (path == null)
-            path = Directory.GetCurrentDirectory();
 
+        path = Directory.GetCurrentDirectory();
         if (Directory.Exists(path))
         {
+
             fullPath = path + "/" + folderName;
             //si le folder nexiste pas, en creer un
             if (!Directory.Exists(fullPath))
             {
+                Debug.Log("bonjour");
 
                 Directory.CreateDirectory(fullPath);
             }            

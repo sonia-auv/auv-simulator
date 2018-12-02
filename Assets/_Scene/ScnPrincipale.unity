@@ -674,7 +674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   folderName: SoniaScreenShotImages
-  path: D:\Farah_D\ETS\ClubSonia\SoniaScreenShotObject
+  path: 
   filename: 
 --- !u!114 &1530263528
 MonoBehaviour:
