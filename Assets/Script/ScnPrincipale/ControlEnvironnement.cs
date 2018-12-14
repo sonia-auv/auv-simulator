@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class ControlEnvironnement : MonoBehaviour {
 
     //const int ANGLE_UN_TOUR = 360;
+    const string NB_FRAME_FILE = "DonneeEntre.txt";
 
     //int angleModeleInitial = 50;
     List<Transform> modeles;
@@ -13,9 +15,9 @@ public class ControlEnvironnement : MonoBehaviour {
 
     public int vitesseRotation = 1;
 
-
     int additionAngleLacet = 0;
     int additionAngleTangage = 0;
+
 
 	// Use this for initialization
 	void Start () {
@@ -30,12 +32,17 @@ public class ControlEnvironnement : MonoBehaviour {
             //modeles[i].GetComponentInParent<Transform>().Rotate(50, 0, 0);
 
         }
+
+        
+
+       
     }
 	
 	// Update is called once per frame
 	void Update () {
 
         TournerModele();
+       
 	}
 
     void TournerModele()

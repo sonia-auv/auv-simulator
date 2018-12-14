@@ -12,7 +12,11 @@ public class ScreenShot : MonoBehaviour {
     string fullPath;
     public string filename;
 
+    private void Awake()
+    {
+        Screen.SetResolution(300, 300, false);
 
+    }
 
     // Use this for initialization
     void Start () {
@@ -34,6 +38,7 @@ public class ScreenShot : MonoBehaviour {
         {
             //TODO error
         }
+
 	}
 	
 	// Update is called once per frame

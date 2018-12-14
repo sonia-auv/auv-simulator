@@ -91,4 +91,9 @@ public class LancementSimulation : MonoBehaviour {
             //TODO Mettre une erreur
         }
     }
+
+    public void LoadScene(int sceneIndex)
+    {
+        SceneManager.LoadScene(sceneIndex);
+    }
 }

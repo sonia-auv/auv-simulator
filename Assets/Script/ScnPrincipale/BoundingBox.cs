@@ -31,7 +31,7 @@ public class BoundingBox : MonoBehaviour {
 	}
 	
 	// LateUpdate on veut creer le bounding box apres que le robot ai bouge
-	void LateUpdate () {
+	void Update () {
 
         CreerBoundingBox();
         DefinirCoinPixel();

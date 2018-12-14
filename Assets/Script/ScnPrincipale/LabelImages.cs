@@ -7,6 +7,7 @@ public class LabelImages : MonoBehaviour {
     ScreenShot scriptScreenShot;
     JSONData scriptJson;
     JSONFile scriptJsonFile;
+    LabelImages scriptLabel;
 
     List<BoundingBox> scriptBB;
     GameObject[] objets;
@@ -14,16 +15,19 @@ public class LabelImages : MonoBehaviour {
     string[,,] boxPoints;
 
     string fileName;
-    string title = "test";
+    string title;
 
     [SerializeField]
     string googleDrivePath;
+
+    bool firstFrame = true;
     
 
 	// Use this for initialization
 	void Start () {
         scriptScreenShot = gameObject.GetComponent<ScreenShot>();
         scriptJsonFile = gameObject.GetComponent<JSONFile>();
+        scriptLabel = gameObject.GetComponent<LabelImages>();
         scriptBB = new List<BoundingBox>();
         objets = GameObject.FindGameObjectsWithTag("BoundingObject");
 
@@ -32,16 +36,21 @@ public class LabelImages : MonoBehaviour {
             scriptBB.Add(objets[i].GetComponent<BoundingBox>());
         }
 
+        title = scriptLabel.googleDrivePath;
+
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (!firstFrame)
+        {
+            fileName = scriptScreenShot.filename;
+            GetBoxPoints();
 
-        fileName = scriptScreenShot.filename;
-        GetBoxPoints();
-
-        scriptJson = new JSONData(googleDrivePath + fileName, title, boxPoints);
-        scriptJsonFile.WriteInJSONFile(scriptJson);
+            scriptJson = new JSONData(googleDrivePath + fileName, title, boxPoints);
+            scriptJsonFile.WriteInJSONFile(scriptJson);
+        }
+        firstFrame = false;
 	}
 
     /// <summary>
