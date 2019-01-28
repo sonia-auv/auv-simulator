@@ -42,15 +42,16 @@ public class LabelImages : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!firstFrame)
-        {
+        //Il y avait un bug avec la first frame
+        //if (!firstFrame)
+        //{
             fileName = scriptScreenShot.filename;
             GetBoxPoints();
 
             scriptJson = new JSONData(googleDrivePath + fileName, title, boxPoints);
             scriptJsonFile.WriteInJSONFile(scriptJson);
-        }
-        firstFrame = false;
+        //}
+        //firstFrame = false;
 	}
 
     /// <summary>

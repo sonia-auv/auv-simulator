@@ -12,11 +12,6 @@ public class ScreenShot : MonoBehaviour {
     string fullPath;
     public string filename;
 
-    private void Awake()
-    {
-        Screen.SetResolution(300, 300, false);
-
-    }
 
     // Use this for initialization
     void Start () {

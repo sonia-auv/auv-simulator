@@ -32,6 +32,7 @@ public class LancerSimulation : MonoBehaviour {
 
     public void LoadScene(int sceneIndex)
     {
+        Screen.SetResolution(300, 300, false);
 
         using (StreamWriter sw = new StreamWriter(FICHIER_TEXTE_ENTREE))
         {

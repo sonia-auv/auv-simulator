@@ -51,6 +51,7 @@ public class JSONFile : MonoBehaviour {
             {
                 
                 infoJSON = infoJSON.Remove(infoJSON.Length - 1);
+                infoJSON += ",";
                 sw.Write(infoJSON + "\n" + dataJSON.AllInfo + "\n]");
             }
                 

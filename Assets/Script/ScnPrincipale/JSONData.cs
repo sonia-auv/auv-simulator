@@ -161,7 +161,7 @@ public class JSONData : MonoBehaviour {
         {
             allInfo_ =                
                 "{\n" +
-                //ID + ",\n" +
+                ID + ",\n" +
                 labeledData_ + ",\n" +
                 AllLabel + "\n" +
                 //CreateBy + ",\n" +
@@ -173,7 +173,7 @@ public class JSONData : MonoBehaviour {
                 //DataSetName + ",\n" +
                 //Review + ",\n" +
                 //ViewLabel + ",\n" +
-                "},"; //TODO enlever la virgule si cest le dernier et le remettre si on en rajoute
+                "}"; //TODO enlever la virgule si cest le dernier et le remettre si on en rajoute
 
         }
     }
@@ -190,7 +190,8 @@ public class JSONData : MonoBehaviour {
     /// <param name="projectName"></param>
 	public JSONData(string googleDrivePath, string labelName, string[,,] boxPoints//, 
         /*string createBy, string projectName*/)
-    {        
+    {
+        ID = "Alfredxx_007";
         LabeledData = googleDrivePath;
         LabelName = labelName;
         BoxPoints = boxPoints;
