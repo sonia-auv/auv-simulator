@@ -9,13 +9,13 @@ public class JSONFile : MonoBehaviour {
     string fileName = "dataImages.json";
     string fullPath;
 
-    string infoJSON;
+    string infoJSON = "";
 
 	// Use this for initialization
 	void Start () {
         ScreenShot scriptScreenShot = GameObject.Find("Control").GetComponent<ScreenShot>();
 
-        path = scriptScreenShot.path;
+        path = scriptScreenShot.FullPath;
 
         fullPath = path + "/" + fileName;
 

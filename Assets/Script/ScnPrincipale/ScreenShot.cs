@@ -13,28 +13,31 @@ public class ScreenShot : MonoBehaviour {
     public string filename;
 
 
+    public string FullPath
+    {
+        get { return fullPath; }
+        private set { fullPath = value; }
+    }
     // Use this for initialization
     void Start () {
 
-        path = Directory.GetCurrentDirectory();
-        if (Directory.Exists(path))
+        path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/auv-data"; 
+        if (!Directory.Exists(path))
         {
+            Directory.CreateDirectory(path);
 
-            fullPath = path + "/" + folderName;
-            //si le folder nexiste pas, en creer un
-            if (!Directory.Exists(fullPath))
-            {
-                Debug.Log("bonjour");
 
-                Directory.CreateDirectory(fullPath);
-            }            
-        }
-        else
-        {
-            //TODO error
         }
 
-	}
+        FullPath = path + "/" + folderName;
+        //si le folder nexiste pas, en creer un
+        if (!Directory.Exists(fullPath))
+        {
+            Directory.CreateDirectory(fullPath);
+        }
+
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

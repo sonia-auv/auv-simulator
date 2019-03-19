@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BeginingScene : MonoBehaviour {
 
+
+    public int iterationReinitialisation = 100;
     //const float HAUTEUR = 6;
     //const float LARGEUR = 10;
     const float PROFONDEUR_FACE = 0;
@@ -69,12 +71,34 @@ public class BeginingScene : MonoBehaviour {
             
         }
     }
-	
+
+    public void ReinitialiserObjets()
+    {
+        for (int i = 0; i < modeles.Length; ++i)
+        {
+            //Remettre tout les modeles a larriere de la camera et leurs paramettres initiaux
+            modeles[i].transform.position = new Vector3(0, 0, -20);
+            modeles[i].GetComponent<BoundingBox>().enabled = true;
+            modeles[i].tag = "BoundingObject";
+        }
+    }
+
+    int compteurIteration = 0;
 	// Update is called once per frame
 	void Update () {
 
+        compteurIteration++;
+        //Changer les objets qui sont pris en screen shot a un certain nombre diteration 
+        if(compteurIteration >= iterationReinitialisation)
+        {
+            ReinitialiserObjets();
+            AssignerPosition();
+            compteurIteration = 0;
+        }
+
         UpdatePosition();
 		
+
 	}
 
     void UpdatePosition()
